@@ -20,6 +20,7 @@ const rollupTs = require("rollup-plugin-typescript");
 const rollupCjs = require("rollup-plugin-commonjs");
 const rollupResolve = require("rollup-plugin-node-resolve");
 const rollupString = require("rollup-plugin-string");
+const rollupSrcmap = require('rollup-plugin-sourcemaps');
 
 const js_outname = "main.js";
 const template_ignore = ["js"];
@@ -62,13 +63,15 @@ const rollup_inputopts = {
 
 			// Undefined by default
 			exclude: [path.join(src_path, "js/**/*")]
-		})
+        }),
+        rollupSrcmap()
     ]
 };
 const rollup_outputopts = {
     file: path.join(out_path, js_outname),
     format: "es",
     name: "GLApp",
+    sourcemap: true
 };
 async function buildJs(iopts, oopts) {
     let inputopts = rollup_inputopts,

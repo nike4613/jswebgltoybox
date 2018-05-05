@@ -12,12 +12,14 @@ declare global {
     }
 }
 
+var GL_CANVAS: string = window.GL_CANVAS||GL_CANVAS;
+
 async function main() {
     await DocumentLoad;
 
     let canvas: HTMLCanvasElement;
-    if (window.GL_CANVAS) 
-        canvas = document.querySelector(window.GL_CANVAS);
+    if (GL_CANVAS) 
+        canvas = document.querySelector(GL_CANVAS);
     else
         throw new Error("No string GL_CANVAS avaliable on window! Cannot initialize app!");
     if (!canvas)
