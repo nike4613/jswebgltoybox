@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": true
+		},
+		"git.ignoreLimitWarning": true
+	},
+}

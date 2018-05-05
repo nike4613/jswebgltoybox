@@ -1,0 +1,31 @@
+{
+  "name": "webgl-app",
+  "version": "0.0.0",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "deepmerge": "^2.1.0",
+    "ejs": "^2.5.9",
+    "fs-extra": "^6.0.0",
+    "http-server": "^0.11.1",
+    "klaw": "^2.1.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-string": "^2.0.2",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-uglify": "^3.0.0",
+    "typescript": "^2.8.3",
+    "uglify-es": "^3.3.9",
+    "uglify-js": "^3.3.23",
+    "uglifyjs": "^2.4.11"
+  },
+  "scripts": {
+    "build:dev": "node build/debug.node.js",
+    "build:prod": "node build/prod.node.js",
+    "server": "http-server -c-1 dist"
+  },
+  "dependencies": {
+    "@types/gl-matrix": "^2.4.0",
+    "gl-matrix": "^2.5.1"
+  }
+}
