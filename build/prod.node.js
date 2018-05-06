@@ -1,6 +1,4 @@
 const { buildTemplates, buildJs, copyRes, setOpts } = require("./build.node");
-const rollupUglify = require("rollup-plugin-uglify");
-const uglifyEs = require("uglify-es");
 const rollupClosure = require("rollup-plugin-closure-compiler-js");
 
 setOpts({output: "main-prod.js"});
