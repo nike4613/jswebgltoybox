@@ -1,7 +1,7 @@
-import { mat4, vec2 } from "gl-matrix";
+import { mat4 } from "gl-matrix";
 import shader_frag from "../glsl/fragment.glsl";
 import shader_vert from "../glsl/vertex.glsl";
-import { VertexBuffer } from "./gl/VertexBuffer";
+import { GLFloatArrayBuffer } from "./gl/GLArrayBuffer";
 import { Shader, ShaderProgram, ShaderType, WebGL } from "./gl/WebGL";
 import { addFrameHandler, startRender } from "./gl/rendering";
 import { DocumentLoad } from "./util/events";
@@ -29,29 +29,26 @@ async function main() {
 
     let webgl = new WebGL();
     webgl.init(canvas);
-    console.log(webgl, webgl.gl);
 
     let vert = Shader.create(ShaderType.Vertex).src(shader_vert).compileUsing(webgl);
     let frag = Shader.create(ShaderType.Fragment).src(shader_frag).compileUsing(webgl);
-
-    console.log(vert, frag);
     
     let program = new ShaderProgram(frag, vert).linkWith(webgl);
 
-    console.log(program);
-
     let info = program.constructInfoStruct({
-        attribs: {vertexPosition: "aVertexPosition"},
+        attribs: {
+            vertexPosition: "aVertexPosition",
+            vertexColor: "aVertexColor"
+        },
         uniforms: {
             projectionMatrix: "uProjectionMatrix",
             modelViewMatrix: "uModelViewMatrix",
-            resolution: "uResolution"
+            //resolution: "uResolution"
         }
     });
-
     console.log(info);
 
-    let squarebuf = new VertexBuffer(webgl)
+    let squarebuf = new GLFloatArrayBuffer(webgl)
         .init()
         .setData([
             1.0,  1.0,
@@ -59,8 +56,14 @@ async function main() {
             1.0, -1.0,
             -1.0, -1.0,
         ]);
-    
-    console.log(squarebuf);
+    let colorbuf = new GLFloatArrayBuffer(webgl)
+        .init()
+        .setData([
+            1.0,  1.0,  1.0,  1.0,    // white
+            1.0,  0.0,  0.0,  1.0,    // red
+            0.0,  1.0,  0.0,  1.0,    // green
+            0.0,  0.0,  1.0,  1.0,    // blue 
+        ]);
 
     function draw(delta: number): void {
         const GL = webgl.gl;
@@ -88,11 +91,16 @@ async function main() {
 
         mat4.translate(modelViewMatrix,     // destination matrix
             modelViewMatrix,     // matrix to translate
-            [-0.0, 0.0, /*-6.0*/ (sine + .1) * -6.0]);  // amount to translate
+            [-0.0, 0.0, /* (sine + .1) */ -6.0]);  // amount to translate
 
         squarebuf.bindAttribPointer({
             attribLocation: info.attribLocations.vertexPosition, 
             components: 2,
+            normalize: false
+        });
+        colorbuf.bindAttribPointer({
+            attribLocation: info.attribLocations.vertexColor,
+            components: 4,
             normalize: false
         });
 
@@ -106,13 +114,6 @@ async function main() {
             info.uniformLocations.modelViewMatrix,
             false,
             modelViewMatrix);
-
-        const resolution = vec2.create();
-        resolution.set([canvas.clientWidth, canvas.clientHeight]);
-        GL.uniform2fv(
-            info.uniformLocations.resolution,
-            resolution
-        );
 
         {
             const offset = 0;

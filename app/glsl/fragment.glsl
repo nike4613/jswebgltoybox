@@ -4,9 +4,10 @@ precision highp float;
 precision mediump float;
 #endif
 
-uniform vec2 uResolution;
+//uniform vec2 uResolution;
+varying lowp vec4 vColor;
 
 void main() {
-  float max = max(uResolution.x, uResolution.y);
-  gl_FragColor = vec4(gl_FragCoord.xy / max, 0.0, 1.0);
+  //float max = max(uResolution.x, uResolution.y);
+  gl_FragColor = vColor;
 }

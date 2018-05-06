@@ -6,7 +6,7 @@ export interface AttribPointerOptions {
     normalize: boolean;
 }
 
-export class VertexBuffer {
+export class GLFloatArrayBuffer {
     private _gl: WebGL;
     private _buf: WebGLBuffer;
 
@@ -14,14 +14,14 @@ export class VertexBuffer {
         this._gl = gl;
     }
     
-    init(): VertexBuffer {
+    init(): GLFloatArrayBuffer {
         const gl = this._gl.gl;
         this._buf = gl.createBuffer();
 
         return this;
     }
 
-    setData(data: number[]): VertexBuffer {
+    setData(data: number[]): GLFloatArrayBuffer {
         const gl = this._gl.gl;
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this._buf);

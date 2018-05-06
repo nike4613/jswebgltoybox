@@ -33,14 +33,14 @@ export class WebGL {
     }
 }
 
-/** begin stupid enum workaround */
+/** begin stupid const enum workaround */
 type ShaderType = number;
 type eShaderType = {Vertex:ShaderType,Fragment:ShaderType};
 export var ShaderType: eShaderType = {
     Vertex: 0,
     Fragment: 1
 };
-/* end stupid enum workaround **/
+/* end stupid const enum workaround **/
 
 export class Shader {
     public source: string;
