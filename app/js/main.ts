@@ -12,7 +12,7 @@ declare global {
     }
 }
 
-var GL_CANVAS: string = window.GL_CANVAS||GL_CANVAS;
+var GL_CANVAS: string = window['GL_CANVAS'];
 
 async function main() {
     await DocumentLoad;
