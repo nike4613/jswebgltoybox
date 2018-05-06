@@ -22,16 +22,20 @@ const rollupResolve = require("rollup-plugin-node-resolve");
 const rollupString = require("rollup-plugin-string");
 const rollupSrcmap = require('rollup-plugin-sourcemaps');
 
-const js_outname = "main.js";
 const template_ignore = ["js"];
 const src_path = "app";
 const out_path = "dist";
+
+let options = {output: "main.js"};
+function setOpts(opts) {
+    options = merge(options, opts);
+}
 
 async function buildTemplates() {
     let index = await readFile(path.join(src_path, "html", "index.html"), 'utf8');
 
     let processed = ejs.render(index, {
-        js_src: js_outname
+        js_src: options.output
     });
 
     await ensureDir(out_path);
@@ -68,14 +72,13 @@ const rollup_inputopts = {
     ]
 };
 const rollup_outputopts = {
-    file: path.join(out_path, js_outname),
     format: "es",
     name: "GLApp",
     sourcemap: true
 };
 async function buildJs(iopts, oopts) {
     let inputopts = rollup_inputopts,
-        outputopts = rollup_outputopts;
+        outputopts = merge(rollup_outputopts, {file: path.join(out_path, options.output)});
     if (iopts) inputopts = merge(inputopts, iopts);
     if (oopts) outputopts = merge(outputopts, oopts);
 
@@ -94,5 +97,6 @@ async function buildJs(iopts, oopts) {
 
 module.exports = {
     buildTemplates: buildTemplates,
-    buildJs: buildJs
+    buildJs: buildJs,
+    setOpts: setOpts
 }
