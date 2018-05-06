@@ -73,7 +73,8 @@ export class Texture2D {
                     }
                 });
                 // create a bitmap from response data
-                const bitmap = await createImageBitmap(await response.blob());
+                const bitmap = await window['createImageBitmap'](await response.blob());
+                // indexing to make closure compiler happy
 
                 this.bindTexture();
                 gl.texImage2D(gl.TEXTURE_2D, texinfo.levelOfDetail, texinfo.format, 
