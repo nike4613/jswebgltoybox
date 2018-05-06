@@ -13,6 +13,7 @@ const {
     writeFile
 } = require("fs-extra");
 const path = require("path");
+const sh = require("shelljs");
 const {
     rollup
 } = require("rollup");
@@ -42,6 +43,11 @@ async function buildTemplates() {
     await writeFile(path.join(out_path, "index.html"), processed);
 
     console.log("Template built");
+}
+
+async function copyResources() {
+    sh.cp("-ur", path.join(src_path, "res"), path.join(out_path, "res"));
+    console.log("Resources copied");
 }
 
 const rollup_inputopts = {
@@ -98,5 +104,6 @@ async function buildJs(iopts, oopts) {
 module.exports = {
     buildTemplates: buildTemplates,
     buildJs: buildJs,
-    setOpts: setOpts
+    setOpts: setOpts,
+    copyRes: copyResources
 }

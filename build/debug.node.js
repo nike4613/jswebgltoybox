@@ -1,5 +1,6 @@
-const { buildTemplates, buildJs, setOpts } = require("./build.node");
+const { buildTemplates, buildJs, copyRes, setOpts } = require("./build.node");
 
 setOpts({output: "main-dev.js"});
-buildTemplates();
 buildJs();
+buildTemplates();
+copyRes();
