@@ -1,8 +1,10 @@
 import { mat4 } from "gl-matrix";
 import shader_frag from "../glsl/fragment.glsl";
 import shader_vert from "../glsl/vertex.glsl";
-import { GLFloatArrayBuffer, GLUint16ElementArrayBuffer } from "./gl/GLArrayBuffer";
-import { Shader, ShaderProgram, ShaderType, WebGL } from "./gl/WebGL";
+import { GLFloatArrayBuffer, GLUint16ElementArrayBuffer } from "./gl/GLBuffer";
+import { Shader, ShaderProgram, ShaderType } from "./gl/Shaders";
+import { Texture2D } from "./gl/Textures";
+import { WebGL } from "./gl/WebGL";
 import { addFrameHandler, startRender } from "./gl/rendering";
 import { DocumentLoad } from "./util/events";
 
@@ -47,6 +49,14 @@ async function main() {
         }
     });
     console.log(info);
+
+    const texture = new Texture2D(webgl);
+    texture.load({
+        imageUrl: "res/factorio-gear.png",
+        format: webgl.gl.RGBA,
+        levelOfDetail: 0
+    });
+    console.log(texture)
 
     const cubebuf = new GLFloatArrayBuffer(webgl)
         .setData([
