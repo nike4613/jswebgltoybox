@@ -1,13 +1,14 @@
 import { TypedArray } from "../util/misc";
-import { WebGL, WebGLAttribLocation } from "./WebGL";
+import { ShaderAttribLocation } from "./Shaders";
+import { WebGL } from "./WebGL";
 
 export interface AttribPointerOptions {
-    attribLocation: WebGLAttribLocation;
+    attribLocation: ShaderAttribLocation;
     normalize: boolean;
 }
 
 export type TypedArrayType = new (data: number[]) => TypedArray;
-export abstract class GLArrayBuffer {
+export abstract class GLBuffer {
     private _gl: WebGL;
     private _buf: WebGLBuffer;
     private _glenumType: number;
@@ -50,7 +51,7 @@ export abstract class GLArrayBuffer {
     }
 }
 
-export class GLFloatArrayBuffer extends GLArrayBuffer {
+export class GLFloatArrayBuffer extends GLBuffer {
     private _components: number;
 
     constructor(gl: WebGL) {
@@ -76,7 +77,7 @@ export class GLFloatArrayBuffer extends GLArrayBuffer {
     }
 }
 
-export abstract class GLElementArrayBuffer extends GLArrayBuffer {
+export abstract class GLElementArrayBuffer extends GLBuffer {
     private _type: number;
 
     constructor(gl: WebGL, type: TypedArrayType, gltype: number) {
